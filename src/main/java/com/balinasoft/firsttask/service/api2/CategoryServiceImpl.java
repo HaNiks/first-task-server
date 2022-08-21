@@ -1,11 +1,10 @@
 package com.balinasoft.firsttask.service.api2;
 
-import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.domain.api2.Category;
-import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
 import com.balinasoft.firsttask.repository.category.CategoryRepository;
+import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,8 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             category = categoryRepository.findByName(name);
         } catch (Exception e) {
-            throw new RuntimeException(e);
-            // Категория не найдена
+            throw new CategoryNotFoundException();
         }
         return this.toDto(category);
     }
@@ -56,8 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
             category = categoryRepository.findByName(name);
             categoryRepository.delete(category);
         } catch (Exception e) {
-            throw new RuntimeException(e);
-            // Категория не найдена
+            throw new CategoryNotFoundException();
         }
     }
 

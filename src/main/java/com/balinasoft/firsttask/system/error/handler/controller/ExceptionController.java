@@ -1,6 +1,8 @@
 package com.balinasoft.firsttask.system.error.handler.controller;
 
 import com.balinasoft.firsttask.system.error.exception.ApiException;
+import com.balinasoft.firsttask.system.error.exception.category.CategoryErrorResponse;
+import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import com.balinasoft.firsttask.system.error.handler.dto.ErrorDto;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ExceptionController {
@@ -41,5 +44,12 @@ public class ExceptionController {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 error);
         return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<CategoryErrorResponse> handlerException(CategoryNotFoundException exception) {
+        CategoryErrorResponse response = new CategoryErrorResponse("Category with this name wasn't found",
+                LocalDateTime.now());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
