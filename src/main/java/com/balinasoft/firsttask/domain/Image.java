@@ -31,4 +31,7 @@ public class Image {
 
     @ManyToOne
     private User user;
+
+    @Column(name = "category_name")
+    private String categoryName;
 }

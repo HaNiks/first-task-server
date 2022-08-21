@@ -38,8 +38,8 @@ public class ImageController {
             @ApiResponse(code = 400, message = "bad-image"),
             @ApiResponse(code = 500, message = "file-upload-error")
     })
-    public ResponseDto uploadImage(@RequestBody @Valid ImageDtoIn imageDtoIn) {
-        return wrap(imageService.uploadImage(imageDtoIn));
+    public ResponseDto uploadImage(@RequestBody @Valid ImageDtoIn imageDtoIn, String categoryName) {
+        return wrap(imageService.uploadImage(imageDtoIn, categoryName));
     }
 
     @Secured("ROLE_USER")
