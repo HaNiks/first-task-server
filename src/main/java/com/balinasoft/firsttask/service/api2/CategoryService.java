@@ -1,12 +1,12 @@
 package com.balinasoft.firsttask.service.api2;
 
-import com.balinasoft.firsttask.repository.category.CategoryRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
+import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
 
-@Service
-@RequiredArgsConstructor
-public class CategoryService {
+public interface CategoryService {
+    CategoryDTOOut save(CategoryDTOIn categoryDTOIn);
 
-    private final CategoryRepository categoryRepository;
+    CategoryDTOOut findByName(String name);
+
+    void delete(String name);
 }
