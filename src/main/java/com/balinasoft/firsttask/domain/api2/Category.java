@@ -1,11 +1,10 @@
 package com.balinasoft.firsttask.domain.api2;
 
 import com.balinasoft.firsttask.domain.Image;
-import com.balinasoft.firsttask.domain.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,7 +19,7 @@ public class Category {
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private LocalDateTime localDateTime;
 
 
     @OneToMany
