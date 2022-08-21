@@ -53,7 +53,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDtoOut uploadImage(ImageDtoIn imageDtoIn, String categoryName) {
+    public ImageDtoOut uploadImage(ImageDtoIn imageDtoIn) {
         String fileName;
         try {
             fileName = saveImage(imageDtoIn.getBase64Image());
@@ -68,7 +68,6 @@ public class ImageServiceImpl implements ImageService {
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
-        image.setCategoryName(categoryName);
         image = imageRepository.save(image);
         return toDto(image);
     }

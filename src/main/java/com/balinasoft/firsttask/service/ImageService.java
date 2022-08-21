@@ -6,7 +6,7 @@ import com.balinasoft.firsttask.dto.ImageDtoOut;
 import java.util.List;
 
 public interface ImageService {
-    ImageDtoOut uploadImage(ImageDtoIn imageDtoIn, String categoryName);
+    ImageDtoOut uploadImage(ImageDtoIn imageDtoIn);
 
     void deleteImage(int id);
 

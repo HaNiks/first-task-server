@@ -1,5 +1,6 @@
 package com.balinasoft.firsttask.dto;
 
+import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.system.json.UnixTimestampDeserializer;
 import com.balinasoft.firsttask.system.validation.InDateRange;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -42,4 +43,8 @@ public class ImageDtoIn {
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
     double lng;
+
+    @NotNull
+    @ApiModelProperty(required = true)
+    CategoryDTOIn categoryDTOIn;
 }
