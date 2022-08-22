@@ -40,7 +40,7 @@ public class CategoryController {
         return categoryServiceImpl.findByName(name);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete category", response = CategoryDTOOut.class)
     public ResponseDto delete(@PathVariable int id) {
         categoryServiceImpl.delete(id);

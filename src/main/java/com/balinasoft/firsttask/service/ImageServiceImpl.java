@@ -69,7 +69,7 @@ public class ImageServiceImpl implements ImageService {
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
-        image.setCategoryName(imageDtoIn.getCategoryDTOIn().getName());
+        image.setCategory(imageDtoIn.getCategory());
         image = imageRepository.save(image);
         return toDto(image);
     }

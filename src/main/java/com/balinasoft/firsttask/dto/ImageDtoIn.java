@@ -1,6 +1,6 @@
 package com.balinasoft.firsttask.dto;
 
-import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
+import com.balinasoft.firsttask.domain.api2.Category;
 import com.balinasoft.firsttask.system.json.UnixTimestampDeserializer;
 import com.balinasoft.firsttask.system.validation.InDateRange;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -16,6 +16,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -46,5 +47,5 @@ public class ImageDtoIn {
 
     @NotNull
     @ApiModelProperty(required = true)
-    CategoryDTOIn categoryDTOIn;
+    List<Category> category;
 }

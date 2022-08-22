@@ -1,5 +1,6 @@
 package com.balinasoft.firsttask.domain;
 
+import com.balinasoft.firsttask.domain.api2.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +32,6 @@ public class Image {
     @ManyToOne
     private User user;
 
-    @Column(name = "category_name")
-    private String categoryName;
+    @OneToMany
+    private List<Category> category;
 }
