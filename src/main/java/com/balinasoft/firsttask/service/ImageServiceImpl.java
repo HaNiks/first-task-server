@@ -9,6 +9,7 @@ import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
 import com.balinasoft.firsttask.system.error.exception.image.ImageNotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,12 +46,14 @@ public class ImageServiceImpl implements ImageService {
     private final UserRepository userRepository;
 
     private final ImageRepository imageRepository;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public ImageServiceImpl(UserRepository userRepository,
-                            ImageRepository imageRepository) {
+                            ImageRepository imageRepository, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -105,11 +108,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private ImageDtoOut toDto(Image image) {
-        return new ImageDtoOut(image.getId(),
-                url + "/images/" + image.getUrl(),
-                image.getDate(),
-                image.getLat(),
-                image.getLng());
+        return objectMapper.convertValue(image, ImageDtoOut.class);
     }
 
 

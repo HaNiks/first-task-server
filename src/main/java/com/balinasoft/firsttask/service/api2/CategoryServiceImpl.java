@@ -6,6 +6,7 @@ import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.category.CategoryRepository;
 import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ImageRepository imageRepository;
+    private final ObjectMapper objectMapper;
 
 
     @Override
@@ -56,10 +58,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private CategoryDTOOut toDto(Category category) {
-        return new CategoryDTOOut(category.getId(),
-                category.getName(),
-                category.getDate(),
-                category.getImages()
-        );
+        return objectMapper.convertValue(category, CategoryDTOOut.class);
     }
 }

@@ -1,6 +1,5 @@
 package com.balinasoft.firsttask.service;
 
-import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
 
