@@ -34,10 +34,10 @@ public class CategoryController {
         return categoryServiceImpl.findAll(page);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "Find category by name")
-    public CategoryDTOOut findByName(@PathVariable String name) {
-        return categoryServiceImpl.findByName(name);
+    public CategoryDTOOut findByName(@PathVariable int id) {
+        return categoryServiceImpl.findById(id);
     }
 
     @DeleteMapping("/{id}")

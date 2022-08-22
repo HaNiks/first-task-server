@@ -39,13 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTOOut findByName(String name) {
-        Category category = categoryRepository.findByName(name.toLowerCase(Locale.ROOT))
-                .orElseThrow(CategoryNotFoundException::new);
-        return this.toDto(category);
-    }
-
-    @Override
     public CategoryDTOOut findById(int id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(CategoryNotFoundException::new);
