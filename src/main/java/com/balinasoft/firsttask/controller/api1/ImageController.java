@@ -30,7 +30,7 @@ public class ImageController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "", method = RequestMethod.POST,
+    @PostMapping(value = "",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Upload image", response = ImageDtoOut.class)
@@ -43,7 +43,7 @@ public class ImageController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete image", response = ImageDtoOut.class)
     public ResponseDto deleteImage(@PathVariable int id) {
         imageService.deleteImage(id);
@@ -51,16 +51,16 @@ public class ImageController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping
     @ApiOperation(value = "Upload image", response = ImageDtoOut.class, responseContainer = "List")
     public ResponseDto getImages(@RequestParam int page) {
         return wrap(imageService.getImages(page));
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "{categoryName}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     @ApiOperation(value = "Find image by category name", response = ImageDtoOut.class, responseContainer = "List")
-    public ResponseDto findAllByCategoryName(@PathVariable String categoryName, @RequestParam int page) {
-        return wrap(imageService.findAllByCategoryName(categoryName, page));
+    public ResponseDto findByCategoryName(@PathVariable int id, @RequestParam int page) {
+        return wrap(imageService.findById(id, page));
     }
 }

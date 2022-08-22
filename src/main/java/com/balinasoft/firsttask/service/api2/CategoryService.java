@@ -8,5 +8,7 @@ public interface CategoryService {
 
     CategoryDTOOut findByName(String name);
 
-    void delete(String name);
+    CategoryDTOOut findById(int id);
+
+    void delete(int id);
 }

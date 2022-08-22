@@ -1,11 +1,9 @@
 package com.balinasoft.firsttask.service.api2;
 
 import com.balinasoft.firsttask.domain.api2.Category;
-import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
 import com.balinasoft.firsttask.repository.category.CategoryRepository;
-import com.balinasoft.firsttask.service.ImageService;
 import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -22,7 +19,6 @@ import java.util.Locale;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final ImageService imageService;
 
 
     @Override
@@ -44,26 +40,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTOOut findByName(String name) {
-        Category category;
-        try {
-            category = categoryRepository.findByName(name.toLowerCase(Locale.ROOT));
-        } catch (Exception e) {
-            throw new CategoryNotFoundException();
-        }
+        Category category = categoryRepository.findByName(name.toLowerCase(Locale.ROOT))
+                .orElseThrow(CategoryNotFoundException::new);
         return this.toDto(category);
     }
 
     @Override
-    public void delete(String name) {
-        Category category;
-        try {
-            category = categoryRepository.findByName(name);
-            List<ImageDtoIn> inList = imageService.findAllByCategoryName(name);
-            inList.forEach(imageService::uploadImage);
-            categoryRepository.delete(category);
-        } catch (Exception e) {
-            throw new CategoryNotFoundException();
-        }
+    public CategoryDTOOut findById(int id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(CategoryNotFoundException::new);
+        return this.toDto(category);
+    }
+
+    @Override
+    public void delete(int id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(CategoryNotFoundException::new);
+        categoryRepository.delete(category);
     }
 
     private CategoryDTOOut toDto(Category category) {

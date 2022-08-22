@@ -1,5 +1,6 @@
 package com.balinasoft.firsttask.service;
 
+import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
 
@@ -12,8 +13,7 @@ public interface ImageService {
 
     List<ImageDtoOut> getImages(int page);
 
-    List<ImageDtoOut> findAllByCategoryName(String categoryName, int page);
+    List<ImageDtoOut> findById(int id, int page);
 
-    List<ImageDtoIn> findAllByCategoryName(String categoryName);
 
 }

@@ -7,6 +7,7 @@ import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
+import com.balinasoft.firsttask.system.error.exception.image.ImageNotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,18 +95,13 @@ public class ImageServiceImpl implements ImageService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
-    public List<ImageDtoOut> findAllByCategoryName(String categoryName, int page) {
-        return imageRepository.findAllByCategoryName(categoryName, new PageRequest(page, 20))
+    public List<ImageDtoOut> findById(int id, int page) {
+        return imageRepository.findById(id, new PageRequest(page, 20))
+                .orElseThrow(ImageNotFoundException::new)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ImageDtoIn> findAllByCategoryName(String categoryName) {
-        return imageRepository.findAllByCategoryName(categoryName);
     }
 
     private ImageDtoOut toDto(Image image) {

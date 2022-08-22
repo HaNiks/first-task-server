@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api/v2/category")
@@ -24,28 +22,28 @@ public class CategoryController {
 
     private final CategoryServiceImpl categoryServiceImpl;
 
-    @RequestMapping(value = "", method = POST)
+    @PostMapping
     @ApiOperation(value = "Add category", response = CommentDtoOut.class)
     public ResponseDto add(@RequestBody CategoryDTOIn categoryDTOIn) {
         return wrap(categoryServiceImpl.save(categoryDTOIn));
     }
 
-    @RequestMapping(value = "", method = GET)
+    @GetMapping
     @ApiOperation(value = "Find all categories")
     public Page<CategoryDTOOut> findAll(@RequestParam(defaultValue = "0", required = false) int page) {
         return categoryServiceImpl.findAll(page);
     }
 
-    @RequestMapping(value = "{name}", method = GET)
+    @GetMapping("/{name}")
     @ApiOperation(value = "Find category by name")
     public CategoryDTOOut findByName(@PathVariable String name) {
         return categoryServiceImpl.findByName(name);
     }
 
-    @RequestMapping(value = "{categoryName}", method = RequestMethod.DELETE)
+    @DeleteMapping("{id}")
     @ApiOperation(value = "Delete category", response = CategoryDTOOut.class)
-    public ResponseDto delete(@PathVariable String categoryName) {
-        categoryServiceImpl.delete(categoryName);
+    public ResponseDto delete(@PathVariable int id) {
+        categoryServiceImpl.delete(id);
         return wrap();
     }
 
