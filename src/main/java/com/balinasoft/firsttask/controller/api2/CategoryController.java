@@ -35,8 +35,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Find category by name")
-    public CategoryDTOOut findByName(@PathVariable int id) {
+    @ApiOperation(value = "Find category by id")
+    public CategoryDTOOut findById(@PathVariable int id) {
         return categoryServiceImpl.findById(id);
     }
 

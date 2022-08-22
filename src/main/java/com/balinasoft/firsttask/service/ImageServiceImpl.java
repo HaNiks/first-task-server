@@ -7,13 +7,14 @@ import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
-import com.balinasoft.firsttask.system.error.exception.image.ImageNotFoundException;
+import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,12 @@ public class ImageServiceImpl implements ImageService {
 
     @Value("${project.url}")
     private String url;
+
+    @Value("${page.size}")
+    private int size;
+
+    @Value(("${sort.key}"))
+    private String sort;
 
     private final UserRepository userRepository;
 
@@ -92,16 +99,17 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<ImageDtoOut> getImages(int page) {
-        List<Image> images = imageRepository.findByUser(currentUserId(), new PageRequest(page, 20));
+        List<Image> images = imageRepository.findByUser(currentUserId(), new PageRequest(page, size));
         return images.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ImageDtoOut> findById(int id, int page) {
-        return imageRepository.findById(id, new PageRequest(page, 20))
-                .orElseThrow(ImageNotFoundException::new)
+    public List<ImageDtoOut> findByIdIn(List<Integer> id, int page) {
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(sort));
+        return imageRepository.findByIdIn(id, pageRequest)
+                .orElseThrow(CategoryNotFoundException::new)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());

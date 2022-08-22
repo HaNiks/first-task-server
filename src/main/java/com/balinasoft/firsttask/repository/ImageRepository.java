@@ -20,5 +20,5 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query("from Image i where i.user.id = :userId order by i.date desc")
     List<Image> findByUser(@Param("userId") int userId, Pageable pageable);
 
-    Optional<List<Image>> findById(int id, Pageable pageable);
+    Optional<List<Image>> findByIdIn(List<Integer> id, Pageable pageable);
 }

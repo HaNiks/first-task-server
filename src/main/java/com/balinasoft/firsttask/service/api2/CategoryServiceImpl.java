@@ -8,6 +8,7 @@ import com.balinasoft.firsttask.repository.category.CategoryRepository;
 import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,11 @@ import java.util.Locale;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+
+    @Value("${page.size}")
+    private int size;
+    @Value(("${sort.key}"))
+    private String sort;
 
     private final CategoryRepository categoryRepository;
     private final ImageRepository imageRepository;
@@ -37,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public Page<CategoryDTOOut> findAll(int page) {
-        PageRequest pageRequest = new PageRequest(page, 20, new Sort("id"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(sort));
         Page<Category> categories = categoryRepository.findAll(pageRequest);
         return categories.map(this::toDto);
     }

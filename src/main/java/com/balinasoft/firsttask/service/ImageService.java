@@ -12,7 +12,7 @@ public interface ImageService {
 
     List<ImageDtoOut> getImages(int page);
 
-    List<ImageDtoOut> findById(int id, int page);
+    List<ImageDtoOut> findByIdIn(List<Integer> id, int page);
 
 
 }
