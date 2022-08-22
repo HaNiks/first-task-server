@@ -11,7 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTOOut save(CategoryDTOIn categoryDTOIn) {
+        String categoryName = categoryDTOIn.getName().toLowerCase(Locale.ROOT);
         Category category = new Category();
-        category.setLocalDateTime(LocalDateTime.now());
-        category.setName(categoryDTOIn.getName());
+        category.setDate(new Date());
+        category.setName(categoryName);
         categoryRepository.save(category);
         return this.toDto(category);
     }
@@ -40,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTOOut findByName(String name) {
         Category category;
         try {
-            category = categoryRepository.findByName(name);
+            category = categoryRepository.findByName(name.toLowerCase(Locale.ROOT));
         } catch (Exception e) {
             throw new CategoryNotFoundException();
         }
@@ -61,7 +63,8 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryDTOOut toDto(Category category) {
         return new CategoryDTOOut(category.getId(),
                 category.getName(),
-                category.getLocalDateTime(),
-                category.getImages());
+                category.getDate(),
+                category.getImages()
+        );
     }
 }

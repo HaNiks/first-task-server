@@ -21,7 +21,6 @@ public class Category {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-
     @OneToMany
     private List<Image> images;
 }

@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,7 +24,7 @@ public class CategoryController {
 
     private final CategoryServiceImpl categoryServiceImpl;
 
-    @RequestMapping(value = "", method = POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(value = "", method = POST)
     @ApiOperation(value = "Add category", response = CommentDtoOut.class)
     public ResponseDto add(@RequestBody CategoryDTOIn categoryDTOIn) {
         return wrap(categoryServiceImpl.save(categoryDTOIn));
@@ -37,9 +36,9 @@ public class CategoryController {
         return categoryServiceImpl.findAll(page);
     }
 
-    @RequestMapping(value = "name", method = GET)
+    @RequestMapping(value = "{name}", method = GET)
     @ApiOperation(value = "Find category by name")
-    public CategoryDTOOut findByName(@RequestParam String name) {
+    public CategoryDTOOut findByName(@PathVariable String name) {
         return categoryServiceImpl.findByName(name);
     }
 
