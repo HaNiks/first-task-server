@@ -56,4 +56,11 @@ public class ImageController {
     public ResponseDto getImages(@RequestParam int page) {
         return wrap(imageService.getImages(page));
     }
+
+    @Secured("ROLE_USER")
+    @RequestMapping(value = "{categoryName}", method = RequestMethod.GET)
+    @ApiOperation(value = "Find image by category name", response = ImageDtoOut.class, responseContainer = "List")
+    public ResponseDto findAllByCategoryName(@PathVariable String categoryName, @RequestParam int page) {
+        return wrap(imageService.findAllByCategoryName(categoryName, page));
+    }
 }

@@ -68,6 +68,7 @@ public class ImageServiceImpl implements ImageService {
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
+        image.setCategoryName(imageDtoIn.getCategoryDTOIn().getName());
         image = imageRepository.save(image);
         return toDto(image);
     }
@@ -88,7 +89,18 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<ImageDtoOut> getImages(int page) {
         List<Image> images = imageRepository.findByUser(currentUserId(), new PageRequest(page, 20));
-        return images.stream().map(this::toDto).collect(Collectors.toList());
+        return images.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<ImageDtoOut> findAllByCategoryName(String categoryName, int page) {
+        return imageRepository.findAllByCategoryName(categoryName, new PageRequest(page, 20))
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     private ImageDtoOut toDto(Image image) {
@@ -98,6 +110,7 @@ public class ImageServiceImpl implements ImageService {
                 image.getLat(),
                 image.getLng());
     }
+
 
     private String saveImage(String base64Image) throws IOException {
         byte[] bytes = Base64.decodeBase64(base64Image);
