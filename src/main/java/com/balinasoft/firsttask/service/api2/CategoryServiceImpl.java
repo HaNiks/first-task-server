@@ -3,6 +3,7 @@ package com.balinasoft.firsttask.service.api2;
 import com.balinasoft.firsttask.domain.api2.Category;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
+import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.category.CategoryRepository;
 import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Locale;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ImageRepository imageRepository;
 
 
     @Override
@@ -49,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(int id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(CategoryNotFoundException::new);
+        imageRepository.delete(id);
         categoryRepository.delete(category);
     }
 
