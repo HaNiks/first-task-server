@@ -4,7 +4,7 @@ import com.balinasoft.firsttask.domain.Image;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +19,7 @@ public class Category {
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime localDateTime;
+    private Date date;
 
 
     @OneToMany

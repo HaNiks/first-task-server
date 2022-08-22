@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class CategoryDTOOut {
 
     @ApiModelProperty(required = true, dataType = "java.lang.Long", example = "1262307723")
     @JsonSerialize(using = UnixTimestampSereliazer.class)
-    LocalDateTime localDateTime;
+    Date date;
 
     @ApiModelProperty(required = true)
     List<Image> images;
