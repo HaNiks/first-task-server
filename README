@@ -7,3 +7,9 @@ sudo service first-task stop
 wget http://192.168.0.100:1234/target/first-task.jar -O first-task.jar
 sudo systemctl daemon-reload
 sudo service first-task restart
+
+Нужно собрать фотографии  в категории, чтобы  Пользователь:
+
+1. Мог просмотреть/добавить/удалить категорию
+2. При добавлении фотографии обязательно указывал категорию
+3. Получал фотографии для отображении на карте из одной или нескольких категорий
