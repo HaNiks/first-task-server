@@ -13,4 +13,7 @@ public interface ImageService {
     List<ImageDtoOut> getImages(int page);
 
     List<ImageDtoOut> findAllByCategoryName(String categoryName, int page);
+
+    List<ImageDtoIn> findAllByCategoryName(String categoryName);
+
 }

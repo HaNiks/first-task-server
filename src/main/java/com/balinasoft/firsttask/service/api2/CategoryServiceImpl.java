@@ -1,9 +1,11 @@
 package com.balinasoft.firsttask.service.api2;
 
 import com.balinasoft.firsttask.domain.api2.Category;
+import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
 import com.balinasoft.firsttask.repository.category.CategoryRepository;
+import com.balinasoft.firsttask.service.ImageService;
 import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -19,6 +22,7 @@ import java.util.Locale;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
 
 
     @Override
@@ -54,6 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category;
         try {
             category = categoryRepository.findByName(name);
+            List<ImageDtoIn> inList = imageService.findAllByCategoryName(name);
+            inList.forEach(imageService::uploadImage);
             categoryRepository.delete(category);
         } catch (Exception e) {
             throw new CategoryNotFoundException();

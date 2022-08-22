@@ -103,6 +103,11 @@ public class ImageServiceImpl implements ImageService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ImageDtoIn> findAllByCategoryName(String categoryName) {
+        return imageRepository.findAllByCategoryName(categoryName);
+    }
+
     private ImageDtoOut toDto(Image image) {
         return new ImageDtoOut(image.getId(),
                 url + "/images/" + image.getUrl(),

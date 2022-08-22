@@ -2,6 +2,7 @@ package com.balinasoft.firsttask.repository;
 
 
 import com.balinasoft.firsttask.domain.Image;
+import com.balinasoft.firsttask.dto.ImageDtoIn;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query("from Image i where i.user.id = :userId order by i.date desc")
     List<Image> findByUser(@Param("userId") int userId, Pageable pageable);
     List<Image> findAllByCategoryName(String categoryName, Pageable pageable);
+    List<ImageDtoIn> findAllByCategoryName(String categoryName);
+
 }
