@@ -48,9 +48,6 @@ public class ImageServiceImpl implements ImageService {
     @Value("${page.size}")
     private int size;
 
-    @Value(("${sort.key}"))
-    private String sort;
-
     private final UserRepository userRepository;
 
     private final ImageRepository imageRepository;
