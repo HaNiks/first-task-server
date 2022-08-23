@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "image")
@@ -32,6 +31,6 @@ public class Image {
     @ManyToOne
     private User user;
 
-    @OneToMany
-    private List<Category> category;
+    @ManyToOne
+    private Category category;
 }

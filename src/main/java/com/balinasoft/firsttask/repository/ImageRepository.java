@@ -11,14 +11,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query("from Image i where i.user.id = :userId order by i.date desc")
     List<Image> findByUser(@Param("userId") int userId, Pageable pageable);
-
-    Optional<List<Image>> findByIdIn(List<Integer> id, Pageable pageable);
 }

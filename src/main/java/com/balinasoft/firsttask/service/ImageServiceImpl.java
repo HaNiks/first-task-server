@@ -7,14 +7,12 @@ import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
-import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,11 +104,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDtoOut> findByIdIn(List<Integer> id, int page) {
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(sort));
-        return imageRepository.findByIdIn(id, pageRequest)
-                .orElseThrow(CategoryNotFoundException::new)
+    public List<ImageDtoOut> findByCategoryId(int id) {
+        return imageRepository.findAll()
                 .stream()
+                .filter(o -> o.getCategory().getId() == id)
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }

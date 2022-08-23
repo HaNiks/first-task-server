@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.List;
-
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 
 @RestController
@@ -62,7 +60,7 @@ public class ImageController {
     @Secured("ROLE_USER")
     @GetMapping("/id")
     @ApiOperation(value = "Find image by category id", response = ImageDtoOut.class, responseContainer = "List")
-    public ResponseDto findByCategoryName(@RequestParam List<Integer> id, @RequestParam int page) {
-        return wrap(imageService.findByIdIn(id, page));
+    public ResponseDto findByCategoryId(@RequestParam int id) {
+        return wrap(imageService.findByCategoryId(id));
     }
 }
