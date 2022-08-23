@@ -13,7 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
+
+import java.util.List;
 
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 
@@ -50,17 +53,19 @@ public class ImageController {
         return wrap();
     }
 
-    @Secured("ROLE_USER")
+    @PermitAll
+//    @Secured("ROLE_USER")
     @GetMapping
-    @ApiOperation(value = "Upload image", response = ImageDtoOut.class, responseContainer = "List")
+    @ApiOperation(value = "Get images", response = ImageDtoOut.class, responseContainer = "List")
     public ResponseDto getImages(@RequestParam int page) {
         return wrap(imageService.getImages(page));
     }
 
-    @Secured("ROLE_USER")
+    @PermitAll
+//    @Secured("ROLE_USER")
     @GetMapping("/id")
     @ApiOperation(value = "Find image by category id", response = ImageDtoOut.class, responseContainer = "List")
-    public ResponseDto findByCategoryId(@RequestParam int id) {
-        return wrap(imageService.findByCategoryId(id));
+    public ResponseDto findByCategoryId(@RequestParam List<Integer> ids) {
+        return wrap(imageService.findByCategoryId(ids));
     }
 }

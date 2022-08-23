@@ -2,11 +2,14 @@ package com.balinasoft.firsttask.service;
 
 import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.domain.User;
+import com.balinasoft.firsttask.domain.api2.Category;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.UserRepository;
+import com.balinasoft.firsttask.repository.category.CategoryRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
+import com.balinasoft.firsttask.system.error.exception.category.CategoryNotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -25,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -51,13 +55,15 @@ public class ImageServiceImpl implements ImageService {
     private final UserRepository userRepository;
 
     private final ImageRepository imageRepository;
+    private final CategoryRepository categoryRepository;
     private final ObjectMapper objectMapper;
 
     @Autowired
     public ImageServiceImpl(UserRepository userRepository,
-                            ImageRepository imageRepository, ObjectMapper objectMapper) {
+                            ImageRepository imageRepository, CategoryRepository categoryRepository, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
+        this.categoryRepository = categoryRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -69,17 +75,21 @@ public class ImageServiceImpl implements ImageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         User user = userRepository.findOne(currentUserId());
-        Image image = new Image();
+        Category category = categoryRepository.findById(imageDtoIn.getCategory().getId())
+                .orElseThrow(CategoryNotFoundException::new);
+        List<Image> images = category.getImages();
+                Image image = new Image();
         image.setUrl(fileName);
         image.setUser(user);
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
         image.setCategory(imageDtoIn.getCategory());
-        image = imageRepository.save(image);
-        return toDto(image);
+        images.add(image);
+
+        categoryRepository.save(category);
+        return toDto(imageRepository.save(image));
     }
 
     @Override
@@ -104,12 +114,25 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDtoOut> findByCategoryId(int id) {
-        return imageRepository.findAll()
-                .stream()
-                .filter(o -> o.getCategory().getId() == id)
+    public List<ImageDtoOut> findByCategoryId(List<Integer> ids) {
+        List<Image> images = imageRepository.findAll();
+        List<Image> newImages = new ArrayList<>();
+        for (int i = 0; i < images.size(); i++) {
+            for (int j = 0; j < ids.size(); j++) {
+                if (images.get(i).getCategory().getId().equals(ids.get(i))) {
+                    newImages.add(images.get(i));
+                }
+            }
+        }
+        return newImages.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+
+//        return imageRepository.findAll()
+//                .stream()
+//                .filter(o -> o.getCategory().getId() == ids)
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
     }
 
     private ImageDtoOut toDto(Image image) {
