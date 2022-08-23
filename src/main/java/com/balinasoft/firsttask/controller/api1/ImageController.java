@@ -13,10 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
-import javax.validation.Valid;
-
 import java.util.List;
+import java.util.Optional;
 
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 
@@ -41,7 +39,7 @@ public class ImageController {
             @ApiResponse(code = 400, message = "bad-image"),
             @ApiResponse(code = 500, message = "file-upload-error")
     })
-    public ResponseDto uploadImage(@RequestBody @Valid ImageDtoIn imageDtoIn) {
+    public ResponseDto uploadImage(@RequestBody ImageDtoIn imageDtoIn) {
         return wrap(imageService.uploadImage(imageDtoIn));
     }
 
@@ -53,19 +51,17 @@ public class ImageController {
         return wrap();
     }
 
-    @PermitAll
-//    @Secured("ROLE_USER")
+    @Secured("ROLE_USER")
     @GetMapping
     @ApiOperation(value = "Get images", response = ImageDtoOut.class, responseContainer = "List")
     public ResponseDto getImages(@RequestParam int page) {
         return wrap(imageService.getImages(page));
     }
 
-    @PermitAll
-//    @Secured("ROLE_USER")
-    @GetMapping("/id")
+    @Secured("ROLE_USER")
+    @GetMapping("/category")
     @ApiOperation(value = "Find image by category id", response = ImageDtoOut.class, responseContainer = "List")
-    public ResponseDto findByCategoryId(@RequestParam List<Integer> ids) {
-        return wrap(imageService.findByCategoryId(ids));
+    public ResponseDto findByCategoryId(@RequestParam List<Integer> ids, @RequestParam Optional<Integer> page) {
+        return wrap(imageService.findByCategoryId(ids, page.orElse(0)));
     }
 }

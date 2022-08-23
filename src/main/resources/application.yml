@@ -30,3 +30,9 @@ project:
 
 logging:
   path: /first-task/log
+
+page:
+  size: 20
+
+sort:
+  key: id
