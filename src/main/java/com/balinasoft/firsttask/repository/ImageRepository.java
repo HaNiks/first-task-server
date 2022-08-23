@@ -17,4 +17,7 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image, Integer> {
     @Query("from Image i where i.user.id = :userId order by i.date desc")
     List<Image> findByUser(@Param("userId") int userId, Pageable pageable);
+
+    @Query("from Image i where i.category.id in (:categoryIds)")
+    List<Image> findByCategoryIn(@Param("categoryIds") List<Integer> ids, Pageable pageable);
 }

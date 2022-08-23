@@ -28,7 +28,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -79,7 +78,7 @@ public class ImageServiceImpl implements ImageService {
         Category category = categoryRepository.findById(imageDtoIn.getCategory().getId())
                 .orElseThrow(CategoryNotFoundException::new);
         List<Image> images = category.getImages();
-                Image image = new Image();
+        Image image = new Image();
         image.setUrl(fileName);
         image.setUser(user);
         image.setLat(imageDtoIn.getLat());
@@ -87,9 +86,9 @@ public class ImageServiceImpl implements ImageService {
         image.setDate(imageDtoIn.getDate());
         image.setCategory(imageDtoIn.getCategory());
         images.add(image);
-
+        imageRepository.save(image);
         categoryRepository.save(category);
-        return toDto(imageRepository.save(image));
+        return toDto(image);
     }
 
     @Override
@@ -114,25 +113,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDtoOut> findByCategoryId(List<Integer> ids) {
-        List<Image> images = imageRepository.findAll();
-        List<Image> newImages = new ArrayList<>();
-        for (int i = 0; i < images.size(); i++) {
-            for (int j = 0; j < ids.size(); j++) {
-                if (images.get(i).getCategory().getId().equals(ids.get(i))) {
-                    newImages.add(images.get(i));
-                }
-            }
-        }
-        return newImages.stream()
+    public List<ImageDtoOut> findByCategoryId(List<Integer> ids, int page) {
+        return imageRepository.findByCategoryIn(ids, new PageRequest(page, size))
+                .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
-
-//        return imageRepository.findAll()
-//                .stream()
-//                .filter(o -> o.getCategory().getId() == ids)
-//                .map(this::toDto)
-//                .collect(Collectors.toList());
     }
 
     private ImageDtoOut toDto(Image image) {
