@@ -4,11 +4,10 @@ import com.balinasoft.firsttask.dto.CommentDtoOut;
 import com.balinasoft.firsttask.dto.ResponseDto;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOIn;
 import com.balinasoft.firsttask.dto.api2.CategoryDTOOut;
-import com.balinasoft.firsttask.service.api2.CategoryServiceImpl;
+import com.balinasoft.firsttask.service.api2.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,30 +19,30 @@ import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final CategoryServiceImpl categoryServiceImpl;
+    private final CategoryService categoryService;
 
     @PostMapping
     @ApiOperation(value = "Add category", response = CommentDtoOut.class)
     public ResponseDto add(@RequestBody CategoryDTOIn categoryDTOIn) {
-        return wrap(categoryServiceImpl.save(categoryDTOIn));
+        return wrap(categoryService.save(categoryDTOIn));
     }
 
     @GetMapping
     @ApiOperation(value = "Find all categories")
-    public Page<CategoryDTOOut> findAll(@RequestParam(defaultValue = "0", required = false) int page) {
-        return categoryServiceImpl.findAll(page);
+    public ResponseDto findAll(@RequestParam(defaultValue = "0", required = false) int page) {
+        return wrap(categoryService.findAll(page));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Find category by id")
-    public CategoryDTOOut findById(@PathVariable int id) {
-        return categoryServiceImpl.findById(id);
+    public ResponseDto findById(@PathVariable int id) {
+        return wrap(categoryService.findById(id));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete category", response = CategoryDTOOut.class)
     public ResponseDto delete(@PathVariable int id) {
-        categoryServiceImpl.delete(id);
+        categoryService.delete(id);
         return wrap();
     }
 
