@@ -1,6 +1,7 @@
 package com.balinasoft.firsttask.domain.api2;
 
 import com.balinasoft.firsttask.domain.Image;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,8 +20,10 @@ public class Category {
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonInclude
     private Date date;
 
     @OneToMany
+    @JsonInclude
     private List<Image> images;
 }
