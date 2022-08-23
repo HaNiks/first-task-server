@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Value("${page.size}")
     private int size;
-    @Value(("${sort.key}"))
+    @Value("${sort.key}")
     private String sort;
 
     private final CategoryRepository categoryRepository;
